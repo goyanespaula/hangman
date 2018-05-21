@@ -7,9 +7,7 @@ import PropTypes from "prop-types";
 import Letter from "./Letter";
 import alphabet from "../helpers/alphabet";
 
-const propTypes = {
-  letter: PropTypes.string.isRequired
-};
+const propTypes = {};
 
 class LettersBoard extends Component {
   constructor(props) {
@@ -38,9 +36,7 @@ class LettersBoard extends Component {
 }
 
 function mapStateToProps(state) {
-  return {
-    isPlaying: state.isPlaying
-  };
+  return {};
 }
 
 LettersBoard.propTypes = propTypes;

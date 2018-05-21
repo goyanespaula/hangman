@@ -4,11 +4,17 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 // src
-import { ADD_LETTER } from "../actions";
+import {
+  increaseAttempts,
+  updateGuess,
+  updateWinStatus
+} from "../actions/actionCreators";
 
 const propTypes = {
   letter: PropTypes.string.isRequired,
-  disabled: false
+  currPhrase: PropTypes.string.isRequired,
+  currGuess: PropTypes.string.isRequired,
+  dispatch: PropTypes.func.isRequired
 };
 
 class Letter extends Component {
@@ -18,10 +24,30 @@ class Letter extends Component {
       disabled: false
     };
     this.handleClick = this.handleClick.bind(this);
+    this.attemptLetter = this.attemptLetter.bind(this);
   }
 
   handleClick() {
     this.setState({ disabled: true });
+    if (this.state.disabled) return;
+    let newGuess = this.attemptLetter(this.props.letter);
+    if (newGuess === this.props.currGuess) {
+      this.props.dispatch(increaseAttempts());
+    } else if (newGuess === this.props.currPhrase) {
+      this.props.dispatch(updateWinStatus(newGuess));
+    } else {
+      this.props.dispatch(updateGuess(newGuess));
+    }
+  }
+
+  attemptLetter(letter) {
+    let newGuess = this.props.currGuess.split("");
+    this.props.currPhrase.split("").forEach((l, i) => {
+      if (l === letter) {
+        newGuess[i] = l;
+      }
+    });
+    return newGuess.join("");
   }
 
   render() {
@@ -48,9 +74,7 @@ class Letter extends Component {
 }
 
 function mapStateToProps(state) {
-  return {
-    isPlaying: state.isPlaying
-  };
+  return { currPhrase: state.currPhrase, currGuess: state.currGuess };
 }
 
 Letter.propTypes = propTypes;

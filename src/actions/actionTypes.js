@@ -1,0 +1,3 @@
+export const INCREASE_ATTEMPTS = "INCREASE_ATTEMPTS";
+export const UPDATE_GUESS = "UPDATE_GUESS";
+export const UPDATE_WIN = "UPDATE_WIN";
